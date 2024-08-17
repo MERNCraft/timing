@@ -1,6 +1,6 @@
 # Timing of value changes #
 
-[Demo](https://MERNCraft.github.io)
+[Demo](https://MERNCraft.github.io/timing)
 
 This CSS-only page illustrates the timing of changes to `z-index` during an animation.
 
