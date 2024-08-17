@@ -1,0 +1,185 @@
+:root {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #ddd;
+  background-color: #222;
+  --size: 100px;
+  --timing: step-end; /* will toggle to "linear" */
+}
+
+main {
+  position: relative;
+  width: 300px;
+  height: 150px;
+
+  border: 1px solid #fff;
+  border-radius: 8px;
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+/* Slider/checkbox */
+input {
+  position: absolute;
+  z-index: 7;
+}
+body:has(input:checked) {
+  --timing: linear;
+}
+
+label {
+  --size: 14px;
+  --edge: 1px;
+  --lift: calc(-1 * var(--edge));
+  --width: calc(2 * var(--size));
+  --color: #fff;
+
+  position: absolute;
+  width: 100%;
+  padding: 0.25em;
+  background-color: #0008;
+  color: var(--color);
+  font-size: var(--size);
+  z-index: 7;
+}
+label::before {
+  content: "animation-timing-function: step-end"
+}
+label::after {
+  content: "linear"
+}
+input {
+  position: absolute;
+  left: -999vw;
+}
+input + span {
+  position: relative;
+}
+input + span::before,
+input + span::after {
+  content: ".";
+  display: inline-block;
+  width: var(--width);
+  height: var(--size);
+  border-radius: var(--size);
+  border: var(--edge) solid var(--color);
+  box-sizing: border-box;
+  color: #0000; /* transparent */
+}
+input + span::after {
+  position: absolute;
+  width: var(--size);
+  background-color: var(--color);
+  border-color: transparent;
+  top: var(--lift);
+  left: 0;
+  transition: left 0.2s
+}
+input:checked + span::after {
+  left: var(--size)
+}
+
+/* Coloured squares */
+main > span {
+  position: absolute;
+  left: 0;
+  height: var(--size);
+  width: var(--size);
+  display: inline-block;
+  background-color: #888;
+}
+
+span.mover { /* :nth-of-type(1) */
+  top: 50px;
+  border: 1px solid white;
+  box-sizing: border-box;
+  /* animation */
+  animation: z-left 4s alternate infinite  var(--timing);
+}
+
+span:nth-of-type(2) {
+  /* z-index: 0; */
+  background-color: #c00;
+}
+
+span:nth-of-type(3) {
+  left: 50px;
+  z-index: 1;
+  background-color: #cc0;
+}
+
+span:nth-of-type(4) {
+  left: 100px;
+  z-index: 2;
+  background-color: #0c0;
+}
+
+span:nth-of-type(5) {
+  left: 150px;
+  z-index: 3;
+  background-color: #00c;
+}
+
+span:nth-of-type(6) {
+  left: 200px;
+  z-index: 4;
+  background-color: #c0c;
+}
+
+@keyframes z-left {
+  0%  { z-index: 0; left:  0px; }
+  10% { z-index: 1; left:  0px; }
+  30% { z-index: 2; left:  50px; }
+  50% { z-index: 3; left: 100px; }
+  70% { z-index: 4; left: 150px; }
+  90% { z-index: 5; left: 200px; }
+ 100% { z-index: 5; left: 200px; }
+}
+
+/* Stop the animation when it's not required */
+main:not(:hover) {
+  &::after {
+    content: "Hover to play";
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 7;
+    font-size: 32px;
+    margin-bottom: 6px;
+  }
+  span.mover {
+    animation-play-state: paused;
+  }
+}
+
+/* Show the GitHub logo */
+a.github {
+  width: 0;
+  height: 0;
+
+  img {
+    position: absolute;
+    right: 3px;
+    bottom: 3px;
+    width: 32px;
+    height: 32px;
+    filter: grayscale(1);
+    opacity: 0.25;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
